@@ -1,0 +1,55 @@
+/* Import all component styles in one file */
+@import './app-wheel.css';
+@import './outline-animation.css';
+@import './settings-panel.css';
+@import './voice-visualizer.css';
+@import './variables.css';
+@import './app-container.css';
+
+/* App container styles */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  border-top-color: rgba(59, 130, 246, 0.8);
+  animation: spin 1s ease-in-out infinite;
+  margin: 0 auto;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Circuit styling for app container */
+.circuit-element {
+  position: absolute;
+  z-index: 1;
+}
+
+.circuit-trace-h {
+  height: 1px;
+  background: linear-gradient(to right, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.5), rgba(59, 130, 246, 0.3));
+}
+
+.circuit-trace-v {
+  width: 1px;
+  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.3), rgba(59, 130, 246, 0.5), rgba(59, 130, 246, 0.3));
+}
+
+.circuit-connector {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+.circuit-node {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  background-color: rgba(16, 24, 39, 0.8);
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.4);
+}

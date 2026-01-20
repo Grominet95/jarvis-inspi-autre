@@ -1,0 +1,169 @@
+/* Outline animation styles - clean implementation */
+
+/* Base outline styles */
+.screen-outline {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Horizontal segments (top and bottom) */
+.outline-segment.outline-horizontal {
+  position: absolute;
+  left: 50%;
+  height: 8px; /* Increased from 4px to 8px */
+  transform: translateX(-50%);
+  width: 0;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.95), transparent);
+  box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 100px rgba(59, 130, 246, 0.6); /* Doubled shadow values */
+}
+
+/* Vertical segments (left and right) */
+.outline-segment.outline-vertical {
+  position: absolute;
+  top: 0;
+  width: 8px; /* Increased from 4px to 8px */
+  height: 0;
+  background: linear-gradient(0deg, transparent, rgba(59, 130, 246, 0.95), transparent);
+  box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 100px rgba(59, 130, 246, 0.6); /* Doubled shadow values */
+}
+
+/* Positions */
+.outline-top { top: 0; }
+.outline-bottom { bottom: 0; }
+.outline-left { left: 0; }
+.outline-right { right: 0; }
+
+/* Origin removed - no longer needed */
+
+/* Anchor segments so growth originates from the bottom-right corner */
+.outline-bottom, .outline-top {
+  left: auto !important;
+  right: 0 !important;
+  transform: none !important;
+  transform-origin: right center !important; /* expand right -> left */
+}
+
+.outline-right, .outline-left {
+  top: auto !important;
+  bottom: 0 !important;
+  transform-origin: center bottom !important; /* expand bottom -> top */
+}
+
+/* Expansion animations - starting from bottom-right corner: right → bottom → left → top */
+.outline-active .outline-right {
+  height: 100%;
+  transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.0s, box-shadow 0.6s ease;
+}
+
+.outline-active .outline-bottom {
+  width: 100%;
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.2s, box-shadow 0.6s ease;
+}
+
+.outline-active .outline-left {
+  height: 100%;
+  transition: height 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.4s, box-shadow 0.6s ease;
+}
+
+.outline-active .outline-top {
+  width: 100%;
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.6s, box-shadow 0.6s ease;
+}
+
+
+/* Pulsing effect */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 100px rgba(59, 130, 246, 0.6); } /* Doubled values */
+  50% { box-shadow: 0 0 80px rgba(59, 130, 246, 1), 0 0 140px rgba(59, 130, 246, 0.8); } /* Doubled values */
+}
+
+.outline-pulsing .outline-segment {
+  animation: pulse-glow 4s infinite cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Retraction animations - reverse order (top → left → bottom → right) */
+.outline-retracting .outline-top {
+  width: 0 !important;
+  transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease !important;
+}
+
+.outline-retracting.step-2 .outline-left {
+  height: 0 !important;
+  transition: height 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease !important;
+}
+
+.outline-retracting.step-3 .outline-bottom {
+  width: 0 !important;
+  transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease !important;
+}
+
+.outline-retracting.step-4 .outline-right {
+  height: 0 !important;
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease !important;
+}
+
+.outline-retracting .outline-particle {
+  animation: particle-fade-out 0.8s forwards ease-out !important;
+}
+
+@keyframes particle-fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+}
+
+/* Particle animations for moving dots */
+.outline-particle {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 30px rgba(59, 130, 246, 1),
+    0 0 60px rgba(59, 130, 246, 0.7);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Horizontal particle movement (left to right or right to left) */
+@keyframes move-particle-horizontal {
+  0% { left: 0; opacity: 0; transform: scale(0.5); }
+  5% { opacity: 1; transform: scale(1); }
+  90% { opacity: 1; }
+  100% { left: 100%; opacity: 0; transform: scale(0.5); }
+}
+
+/* Vertical particle movement (top to bottom or bottom to top) */
+@keyframes move-particle-vertical {
+  0% { top: 0; opacity: 0; transform: scale(0.5); }
+  5% { opacity: 1; transform: scale(1); }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; transform: scale(0.5); }
+}
+
+/* For reverse directions */
+@keyframes move-particle-horizontal-reverse {
+  0% { right: 0; opacity: 0; transform: scale(0.5); }
+  5% { opacity: 1; transform: scale(1); }
+  90% { opacity: 1; }
+  100% { right: 100%; opacity: 0; transform: scale(0.5); }
+}
+
+@keyframes move-particle-vertical-reverse {
+  0% { bottom: 0; opacity: 0; transform: scale(0.5); }
+  5% { opacity: 1; transform: scale(1); }
+  90% { opacity: 1; }
+  100% { bottom: 100%; opacity: 0; transform: scale(0.5); }
+}

@@ -1,0 +1,90 @@
+/* HoloMat Button Styles */
+.holomat-button {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+  transition: all 0.3s ease;
+  position: relative;
+  opacity: 0.9;
+}
+
+.holomat-button::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.holomat-button:hover {
+  background: rgba(15, 23, 42, 0.9);
+  border-color: rgba(59, 130, 246, 0.6);
+  transform: translateY(-1px) scale(1.05);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.25);
+  opacity: 1;
+}
+
+.holomat-button:hover::after {
+  opacity: 1;
+}
+
+/* Active state with intense glow */
+.holomat-button.mic-active {
+  background: rgba(59, 130, 246, 0.2);
+  border-color: rgba(59, 130, 246, 0.7);
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(59, 130, 246, 0.3);
+  opacity: 1;
+}
+
+.holomat-button.mic-active::after {
+  opacity: 1;
+  animation: holomat-pulse 2s infinite;
+}
+
+/* Pressed state with strong glow */
+.holomat-button:active,
+.holomat-button.pressed {
+  transform: translateY(0) scale(0.95);
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.8), 0 0 80px rgba(59, 130, 246, 0.4);
+  background: rgba(59, 130, 246, 0.3);
+  border-color: rgba(59, 130, 246, 0.9);
+}
+
+.holomat-button.mic-connecting {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.5);
+  opacity: 1;
+}
+
+.holomat-button.mic-muted {
+  border-color: rgba(239, 68, 68, 0.7) !important;
+  box-shadow: 
+    0 0 25px rgba(239, 68, 68, 0.6),
+    inset 0 0 20px rgba(0, 0, 0, 0.6),
+    0 8px 25px rgba(0, 0, 0, 0.6) !important;
+  animation: red-pulse 2s ease-in-out infinite !important;
+}
+
+@keyframes holomat-pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.1); opacity: 0.3; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+@keyframes red-pulse {
+  0% { 
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+    border-color: rgba(239, 68, 68, 0.7);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(239, 68, 68, 0.8);
+    border-color: rgba(239, 68, 68, 0.9);
+  }
+  100% { 
+    box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+    border-color: rgba(239, 68, 68, 0.7);
+  }
+}
+

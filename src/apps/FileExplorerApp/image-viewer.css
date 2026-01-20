@@ -1,0 +1,503 @@
+/* Image Viewer Overlay with circuit animations - Isolated Styles */
+
+/* Namespace all classes to prevent conflicts */
+.image-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  backdrop-filter: blur(10px);
+  pointer-events: auto;
+}
+
+.image-viewer-overlay.viewer-visible {
+  opacity: 1;
+}
+
+/* SVG Circuit Outline Animation */
+.image-viewer-overlay .image-viewer-outline-container {
+  position: absolute;
+  inset: 10%;
+  width: 80%;
+  height: 80%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.image-viewer-overlay.viewer-visible .image-viewer-outline-container {
+  opacity: 1;
+  visibility: visible;
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-content .image-viewer-outline-container {
+  opacity: 0;
+  transition: opacity 0.4s ease 0.2s;
+}
+
+.image-viewer-overlay .image-viewer-outline-path {
+  fill: none;
+  stroke: rgba(59, 130, 246, 0.9);
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 16px rgba(59, 130, 246, 0.4));
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+}
+
+/* Upper half path animation */
+.image-viewer-overlay .image-viewer-outline-path-upper {
+  animation: img-viewer-draw-outline 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-play-state: paused;
+}
+
+/* Lower half path animation */
+.image-viewer-overlay .image-viewer-outline-path-lower {
+  animation: img-viewer-draw-outline 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.08s;
+  animation-play-state: paused;
+}
+
+.image-viewer-overlay .viewer-show-outline .image-viewer-outline-path {
+  animation-play-state: running;
+}
+
+/* Main container styling */
+.image-viewer-overlay .image-viewer-container {
+  position: relative;
+  width: 90vw;
+  height: 90vh;
+  max-width: 1600px;
+  max-height: 1000px;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(3, 7, 18, 0.98));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  animation: img-viewer-pop-in 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1) forwards;
+  
+  /* Advanced clip-path for unique shape */
+  clip-path: polygon(
+    0% 15px,
+    15px 0%,
+    calc(100% - 15px) 0%,
+    100% 15px,
+    100% calc(100% - 15px),
+    calc(100% - 15px) 100%,
+    15px 100%,
+    0% calc(100% - 15px)
+  );
+}
+
+/* Fullscreen mode styling */
+.image-viewer-overlay .image-viewer-container.viewer-fullscreen {
+  width: 100vw;
+  height: 100vh;
+  max-width: none;
+  max-height: none;
+  border-radius: 0;
+  background-color: black;
+  clip-path: none;
+}
+
+/* Holographic Grid Animation */
+.image-viewer-overlay .image-viewer-grid-container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-grid .image-viewer-grid-container {
+  opacity: 1;
+}
+
+.image-viewer-overlay .image-viewer-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background-size: 30px 30px;
+  transform: scale(1.2);
+  transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-viewer-overlay .horizontal-grid {
+  background-image: linear-gradient(90deg, 
+    rgba(59, 130, 246, 0.15) 1px,
+    transparent 1px,
+    transparent 29px,
+    rgba(59, 130, 246, 0.15) 30px,
+    rgba(59, 130, 246, 0.15) 30px
+  );
+}
+
+.image-viewer-overlay .vertical-grid {
+  background-image: linear-gradient(0deg, 
+    rgba(59, 130, 246, 0.15) 1px,
+    transparent 1px,
+    transparent 29px,
+    rgba(59, 130, 246, 0.15) 30px,
+    rgba(59, 130, 246, 0.15) 30px
+  );
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-grid .image-viewer-grid {
+  opacity: 0.5;
+  transform: scale(1);
+}
+
+/* Hologram Scanning Effect */
+.image-viewer-overlay .image-viewer-scan-effect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  background: linear-gradient(to bottom, 
+    rgba(59, 130, 246, 0.6),
+    rgba(59, 130, 246, 0.1) 50%, 
+    transparent
+  );
+  opacity: 0;
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+  pointer-events: none;
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-grid .image-viewer-scan-effect {
+  animation: img-viewer-hologram-scan 1s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+}
+
+/* Corner Brackets */
+.image-viewer-overlay .image-viewer-corners .corner {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-viewer-overlay .corner.top-left {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid rgba(59, 130, 246, 0.8);
+  border-left: 2px solid rgba(59, 130, 246, 0.8);
+  transform: translate(-20px, -20px);
+}
+
+.image-viewer-overlay .corner.top-right {
+  top: -1px;
+  right: -1px;
+  border-top: 2px solid rgba(59, 130, 246, 0.8);
+  border-right: 2px solid rgba(59, 130, 246, 0.8);
+  transform: translate(20px, -20px);
+}
+
+.image-viewer-overlay .corner.bottom-left {
+  bottom: -1px;
+  left: -1px;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.8);
+  border-left: 2px solid rgba(59, 130, 246, 0.8);
+  transform: translate(-20px, 20px);
+}
+
+.image-viewer-overlay .corner.bottom-right {
+  bottom: -1px;
+  right: -1px;
+  border-top: 2px solid transparent;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.8);
+  border-right: 2px solid rgba(59, 130, 246, 0.8);
+  transform: translate(20px, 20px);
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-corners .corner {
+  opacity: 1;
+  transform: translate(0, 0);
+  transition-delay: 0.1s;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-corners .corner.top-left {
+  transition-delay: 0.1s;
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-corners .corner.top-right {
+  transition-delay: 0.2s;
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-corners .corner.bottom-right {
+  transition-delay: 0.3s;
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-corners .corner.bottom-left {
+  transition-delay: 0.4s;
+}
+
+/* Inner glow effect */
+.image-viewer-overlay .image-viewer-panel-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.image-viewer-overlay.viewer-visible .image-viewer-panel-glow {
+  animation: img-viewer-inner-glow 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Circuit elements */
+.image-viewer-overlay .circuit-element {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-content .circuit-element {
+  opacity: 1;
+}
+
+/* Circuit traces */
+.image-viewer-overlay .circuit-trace-h {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.6), transparent);
+}
+
+.image-viewer-overlay .circuit-trace-v {
+  width: 1px;
+  background: linear-gradient(0deg, rgba(59, 130, 246, 0.6), transparent);
+}
+
+.image-viewer-overlay .circuit-node {
+  width: 6px;
+  height: 6px;
+  background: rgba(59, 130, 246, 0.5);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+.image-viewer-overlay .circuit-dot {
+  width: 3px;
+  height: 3px;
+  background: rgba(59, 130, 246, 0.7);
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+/* Main image content */
+.image-viewer-overlay .image-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.image-viewer-overlay .image-display {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+  user-select: none;
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-content .image-display {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Controls overlay */
+.image-viewer-overlay .image-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 15px 20px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.image-viewer-overlay .image-viewer-container.viewer-show-content .image-controls {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.image-viewer-overlay .image-title {
+  font-size: 16px;
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.image-viewer-overlay .image-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.image-viewer-overlay .zoom-controls {
+  display: flex;
+  gap: 5px;
+}
+
+.image-viewer-overlay .zoom-btn, 
+.image-viewer-overlay .fullscreen-btn, 
+.image-viewer-overlay .close-btn {
+  background-color: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(203, 213, 225, 1);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.image-viewer-overlay .zoom-btn:hover, 
+.image-viewer-overlay .fullscreen-btn:hover, 
+.image-viewer-overlay .close-btn:hover {
+  background-color: rgba(30, 41, 59, 0.9);
+  border-color: rgba(59, 130, 246, 0.6);
+  color: white;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
+}
+
+/* Button press effect */
+.image-viewer-overlay .zoom-btn:active, 
+.image-viewer-overlay .fullscreen-btn:active, 
+.image-viewer-overlay .close-btn:active {
+  transform: scale(0.95);
+}
+
+/* Digital ripple effect on button press */
+.image-viewer-overlay .zoom-btn:active::after, 
+.image-viewer-overlay .fullscreen-btn:active::after, 
+.image-viewer-overlay .close-btn:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(59, 130, 246, 0.6);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1);
+  animation: img-viewer-ripple-effect 0.6s ease-out;
+}
+
+.image-viewer-overlay .close-btn {
+  color: rgba(248, 113, 113, 0.9);
+}
+
+.image-viewer-overlay .close-btn:hover {
+  color: rgba(248, 113, 113, 1);
+}
+
+/* Isolated keyframe animations with unique names */
+@keyframes img-viewer-draw-outline {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes img-viewer-inner-glow {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+@keyframes img-viewer-hologram-scan {
+  0% {
+    height: 0%;
+    top: 0;
+    opacity: 0.8;
+  }
+  100% {
+    height: 10px;
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes img-viewer-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes img-viewer-ripple-effect {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(20);
+    opacity: 0;
+  }
+}
+
+/* Media queries for smaller screens */
+@media (max-width: 640px) {
+  .image-viewer-overlay .image-controls {
+    padding: 10px;
+  }
+  
+  .image-viewer-overlay .image-title {
+    font-size: 14px;
+    max-width: 50%;
+  }
+  
+  .image-viewer-overlay .zoom-btn, 
+  .image-viewer-overlay .fullscreen-btn, 
+  .image-viewer-overlay .close-btn {
+    width: 32px;
+    height: 32px;
+  }
+}

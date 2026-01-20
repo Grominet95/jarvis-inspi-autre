@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HoloMat Debug Test</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #000; 
+            color: #00ff00; 
+            padding: 20px; 
+        }
+        .status { 
+            font-size: 24px; 
+            margin: 10px 0; 
+        }
+        .error { 
+            color: #ff0000; 
+        }
+        .success { 
+            color: #00ff00; 
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 HoloMat Debug Test</h1>
+    <div id="status"></div>
+    
+    <script>
+        const status = document.getElementById('status');
+        
+        function addStatus(message, isError = false) {
+            const div = document.createElement('div');
+            div.className = `status ${isError ? 'error' : 'success'}`;
+            div.textContent = message;
+            status.appendChild(div);
+        }
+        
+        // Test 1: Basic JavaScript
+        addStatus('✅ JavaScript is working');
+        
+        // Test 2: User Agent
+        addStatus(`📱 User Agent: ${navigator.userAgent}`);
+        
+        // Test 3: URL
+        addStatus(`🌐 URL: ${window.location.href}`);
+        
+        // Test 4: Try to send log to server
+        fetch('/api/client-logs', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                logs: [{
+                    level: 'info',
+                    message: 'Debug test from Android TV',
+                    timestamp: new Date().toISOString(),
+                    url: window.location.href
+                }],
+                userAgent: navigator.userAgent,
+                timestamp: new Date().toISOString(),
+                url: window.location.href
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                addStatus('✅ Server communication working!');
+            } else {
+                addStatus(`❌ Server responded with: ${response.status}`, true);
+            }
+        })
+        .catch(error => {
+            addStatus(`❌ Server communication failed: ${error.message}`, true);
+        });
+        
+        // Test 5: Try to load React bundle
+        const script = document.createElement('script');
+        script.src = '/static/js/bundle.js';
+        script.onload = () => addStatus('✅ React bundle loaded');
+        script.onerror = () => addStatus('❌ React bundle failed to load', true);
+        document.head.appendChild(script);
+        
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,55 @@
+{
+    "name": "holomat-v3",
+    "version": "3.0.1",
+    "private": true,
+    "dependencies": {
+        "@gradio/client": "^1.17.1",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^13.4.0",
+        "@testing-library/user-event": "^13.5.0",
+        "@types/three": "^0.157.2",
+        "cheerio": "^1.1.2",
+        "framer-motion": "^10.12.4",
+        "lodash": "^4.17.21",
+        "mqtt": "^5.10.3",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0",
+        "react-markdown": "^10.1.0",
+        "react-scripts": "5.0.1",
+        "remark-gfm": "^4.0.1",
+        "three": "^0.159.0",
+        "web-vitals": "^2.1.4"
+    },
+    "scripts": {
+        "start:server": "node server.js",
+        "start": "concurrently \"npm run start:server\" \"react-scripts start\"",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "proxy": "http://localhost:3001",
+    "eslintConfig": {
+        "extends": [
+            "react-app",
+            "react-app/jest"
+        ]
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "autoprefixer": "^10.4.14",
+        "concurrently": "^7.6.0",
+        "postcss": "^8.4.23",
+        "tailwindcss": "^3.3.2"
+    }
+}

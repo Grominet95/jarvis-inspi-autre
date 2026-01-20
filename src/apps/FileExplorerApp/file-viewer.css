@@ -1,0 +1,540 @@
+/* File Viewer with circuit board styling + animations */
+.file-viewer-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50; /* Higher z-index to overlay file explorer */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+  background-color: rgba(0, 0, 0, 0.75);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.file-viewer-container.visible {
+  opacity: 1;
+}
+
+/* SVG Outline Animation */
+.viewer-outline-container {
+  position: absolute;
+  inset: 10%;
+  width: 80%;
+  height: 80%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease;
+}
+
+.file-viewer-container.visible .viewer-outline-container {
+  opacity: 1;
+  visibility: visible;
+}
+
+.file-viewer-container.panel-visible .viewer-outline-container {
+  opacity: 0;
+  transition: opacity 0.4s ease 0.2s;
+}
+
+.file-viewer-container:not(.visible) .viewer-outline-container {
+  opacity: 0;
+  transition: opacity 0s;
+}
+
+.viewer-outline-path {
+  fill: none;
+  stroke: rgba(59, 130, 246, 0.9);
+  stroke-width: 2px;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8)) drop-shadow(0 0 16px rgba(59, 130, 246, 0.4));
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
+}
+
+/* Upper half path animation */
+.viewer-outline-path-upper {
+  animation: draw-outline 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-play-state: paused;
+}
+
+/* Lower half path animation */
+.viewer-outline-path-lower {
+  animation: draw-outline 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation-delay: 0.08s;
+  animation-play-state: paused;
+}
+
+.file-viewer-container.visible .viewer-outline-path {
+  animation-play-state: running;
+}
+
+/* Main viewer panel styling */
+.file-viewer-panel {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  max-width: 1200px;
+  max-height: 800px;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(3, 7, 18, 0.98));
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(59, 130, 246, 0.2);
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: all;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.file-viewer-container.panel-visible .file-viewer-panel {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Circuit board background pattern */
+.file-viewer-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, transparent 49.8%, rgba(59, 130, 246, 0.08) 49.8%, rgba(59, 130, 246, 0.08) 50.2%, transparent 50.2%),
+    linear-gradient(to bottom, transparent 49.8%, rgba(59, 130, 246, 0.08) 49.8%, rgba(59, 130, 246, 0.08) 50.2%, transparent 50.2%);
+  background-size: 50px 50px;
+  opacity: 0.3;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Circuit board edge glow */
+.file-viewer-panel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: inset 0 0 15px rgba(59, 130, 246, 0.3);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Add glow effect inside the panel */
+.viewer-panel-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.file-viewer-container.visible .viewer-panel-glow {
+  animation: inner-glow 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Panel header with circuit-like design */
+.viewer-panel-header {
+  position: relative;
+  padding: 1rem 0.5rem;
+  border-bottom: none;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background-color: rgba(30, 41, 59, 0.4);
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+
+.file-viewer-container.content-visible .viewer-panel-header {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.viewer-panel-header::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  right: 30px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.6), transparent);
+}
+
+/* Header text animation */
+.viewer-header-text {
+  position: relative;
+  display: inline-block;
+  max-width: 500px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.viewer-header-underline {
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.9), transparent);
+  transition: width 0.6s ease;
+}
+
+.file-viewer-container.content-visible .viewer-header-underline {
+  width: 100%;
+  transition-delay: 0.3s;
+}
+
+/* Circuit traces and decoration */
+.circuit-element {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.file-viewer-container.content-visible .circuit-element {
+  opacity: 1;
+}
+
+/* Content styling */
+.viewer-content {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  height: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.file-viewer-container.content-visible .viewer-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.15s;
+}
+
+/* Loading spinner */
+.viewer-loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(59, 130, 246, 0.3);
+  border-radius: 50%;
+  border-top-color: rgba(59, 130, 246, 0.8);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Image preview animation */
+.image-preview {
+  opacity: 0;
+  transform: scale(0.95);
+  animation: image-fade-in 0.4s forwards 0.3s;
+}
+
+@keyframes image-fade-in {
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Text editor styling */
+.viewer-editor {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  line-height: 1.5;
+  resize: none;
+  transition: border-color 0.2s ease;
+  outline: none;
+}
+
+.viewer-editor:focus {
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Text display */
+.viewer-text-display {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  line-height: 1.5;
+}
+
+/* Control buttons */
+.viewer-btn, .viewer-save-btn, .viewer-close-btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.viewer-btn:hover, .viewer-save-btn:hover, .viewer-close-btn:hover {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+  border-color: rgba(59, 130, 246, 0.6);
+}
+
+.viewer-btn:active, .viewer-save-btn:active, .viewer-close-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 0 12px rgba(59, 130, 246, 0.6);
+}
+
+/* Digital ripple effect on button press */
+.viewer-btn:active::after, .viewer-save-btn:active::after, .viewer-close-btn:active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(59, 130, 246, 0.6);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1);
+  animation: ripple-effect 0.6s ease-out;
+}
+
+@keyframes ripple-effect {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(20);
+    opacity: 0;
+  }
+}
+
+/* Status bar */
+.viewer-status-bar {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+/* Animation keyframes */
+@keyframes draw-outline {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes inner-glow {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+/* Pulsing effect for buttons when in edit mode */
+@keyframes pulse-edit {
+  0%, 100% {
+    box-shadow: 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.6);
+  }
+}
+
+.viewer-btn:focus {
+  animation: pulse-edit 2s infinite;
+}
+
+/* File Viewer Styling */
+.file-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  animation: fade-in 0.3s ease-out;
+}
+
+.file-viewer-container {
+  width: 90%;
+  height: 90%;
+  max-width: 1200px;
+  background-color: rgba(15, 23, 42, 0.95); /* slate-900/95 */
+  border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700/50 */
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
+              0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: viewer-pop-in 0.3s ease-out;
+}
+
+@keyframes viewer-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.file-viewer-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5); /* slate-700/50 */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(30, 41, 59, 0.8); /* slate-800/80 */
+}
+
+.file-viewer-title {
+  color: rgba(203, 213, 225, 1); /* slate-300 */
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: calc(100% - 40px);
+}
+
+.file-viewer-close {
+  color: rgba(148, 163, 184, 1); /* slate-400 */
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.file-viewer-close:hover {
+  background-color: rgba(51, 65, 85, 0.5); /* slate-700/50 */
+  color: rgba(226, 232, 240, 1); /* slate-200 */
+}
+
+.file-viewer-content {
+  flex: 1;
+  overflow: auto;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-color: rgba(15, 23, 42, 0.95); /* slate-900/95 */
+}
+
+/* Text file display */
+.file-viewer-text {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  white-space: pre-wrap;
+  color: rgba(203, 213, 225, 1); /* slate-300 */
+  font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 1rem;
+  border-radius: 4px;
+  background-color: rgba(15, 23, 42, 0.7); /* slate-900/70 */
+  border: 1px solid rgba(51, 65, 85, 0.3); /* slate-700/30 */
+  max-height: calc(100% - 2rem);
+}
+
+/* Image display */
+.file-viewer-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.file-viewer-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* PDF display */
+.file-viewer-pdf {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: white;
+}
+
+/* Audio display */
+.file-viewer-audio-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-viewer-audio {
+  width: 100%;
+  max-width: 500px;
+}
+
+/* Video display */
+.file-viewer-video-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-viewer-video {
+  max-width: 100%;
+  max-height: 100%;
+  background-color: black;
+}
+
+/* Loading state */
+.file-viewer-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgba(148, 163, 184, 1); /* slate-400 */
+}
+
+.file-viewer-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(59, 130, 246, 0.3); /* blue-500/30 */
+  border-top-color: rgba(59, 130, 246, 1); /* blue-500 */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error state */
+.file-viewer-error {
+  padding: 2rem;
+  color: rgba(248, 113, 113, 1); /* red-400 */
+  text-align: center;
+}

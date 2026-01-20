@@ -1,0 +1,61 @@
+:root {
+  /* Base color intensities */
+  --theme-intensity: 0.8;
+  --glow-intensity: 0.8;
+  --border-opacity: 0.7;
+  
+  /* Animation speed factor */
+  --animation-speed-factor: 1;
+  
+  /* Derived animation durations */
+  --animation-fast: calc(0.3s / var(--animation-speed-factor));
+  --animation-normal: calc(0.5s / var(--animation-speed-factor));
+  --animation-slow: calc(0.8s / var(--animation-speed-factor));
+}
+
+/* Apply animation speed to existing animations */
+/* Force the activation order to originate from bottom-right: right → bottom → left → top */
+.outline-active .outline-right {
+  transition: height calc(0.6s / var(--animation-speed-factor)) cubic-bezier(0.25, 1, 0.5, 1) calc(0s / var(--animation-speed-factor)), box-shadow calc(0.6s / var(--animation-speed-factor)) ease !important;
+}
+
+.outline-active .outline-bottom {
+  transition: width calc(0.6s / var(--animation-speed-factor)) cubic-bezier(0.25, 1, 0.5, 1) calc(0.2s / var(--animation-speed-factor)), box-shadow calc(0.6s / var(--animation-speed-factor)) ease !important;
+}
+
+.outline-active .outline-left {
+  transition: height calc(0.6s / var(--animation-speed-factor)) cubic-bezier(0.25, 1, 0.5, 1) calc(0.4s / var(--animation-speed-factor)), box-shadow calc(0.6s / var(--animation-speed-factor)) ease !important;
+}
+
+.outline-active .outline-top {
+  transition: width calc(0.6s / var(--animation-speed-factor)) cubic-bezier(0.25, 1, 0.5, 1) calc(0.6s / var(--animation-speed-factor)), box-shadow calc(0.6s / var(--animation-speed-factor)) ease !important;
+}
+
+.outline-active .outline-origin {
+  transition: height calc(0.6s / var(--animation-speed-factor)) cubic-bezier(0.25, 1, 0.5, 1) calc(0.2s / var(--animation-speed-factor)), box-shadow calc(0.6s / var(--animation-speed-factor)) ease !important;
+}
+
+/* Apply theme intensity to glows */
+.outline-segment {
+  box-shadow: 0 0 25px rgba(59, 130, 246, calc(0.9 * var(--glow-intensity))), 
+              0 0 50px rgba(59, 130, 246, calc(0.6 * var(--glow-intensity))) !important;
+  border-color: rgba(59, 130, 246, var(--border-opacity)) !important;
+}
+
+.outline-origin {
+  box-shadow: 0 0 30px rgba(59, 130, 246, var(--glow-intensity)), 
+              0 0 60px rgba(59, 130, 246, calc(0.7 * var(--glow-intensity))) !important;
+  border-color: rgba(59, 130, 246, var(--border-opacity)) !important;
+}
+
+/* Modify pulse animation */
+@keyframes pulse-glow {
+  0%, 100% { 
+    box-shadow: 0 0 25px rgba(59, 130, 246, calc(0.9 * var(--glow-intensity))), 
+                0 0 50px rgba(59, 130, 246, calc(0.6 * var(--glow-intensity))); 
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(59, 130, 246, var(--glow-intensity)), 
+                0 0 70px rgba(59, 130, 246, calc(0.8 * var(--glow-intensity))); 
+  }
+}

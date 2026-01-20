@@ -1,0 +1,478 @@
+/* Main File Explorer Styles */
+.file-explorer-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transform: scale(0.98);
+  pointer-events: none;
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+  overflow: hidden;
+}
+
+.file-explorer-container.visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+/* Explorer Outline Animation */
+.explorer-outline-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.explorer-outline-path {
+  fill: none;
+  stroke: rgba(59, 130, 246, 0.3); /* blue-500/30 - reduced from 0.5 */
+  stroke-width: 1.5; /* reduced from 2 */
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  opacity: 0;
+  filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.2)); /* reduced glow effect */
+}
+
+.show-outline .explorer-outline-path-upper {
+  animation: circuit-trace 0.8s ease-in-out forwards; /* reduced from 1.5s */
+}
+
+.show-outline .explorer-outline-path-lower {
+  animation: circuit-trace 0.8s ease-in-out 0.05s forwards; /* reduced from 1.5s and delay from 0.1s */
+}
+
+@keyframes circuit-trace {
+  0% {
+    opacity: 0.5; /* reduced from 0.7 */
+    stroke-dashoffset: 2000;
+  }
+  100% {
+    opacity: 0.7; /* reduced from 1 */
+    stroke-dashoffset: 0;
+  }
+}
+
+.explorer-panel-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.05) 0%, transparent 70%); /* reduced from 0.1 */
+  transition: opacity 0.4s ease-out 0.6s; /* reduced from 0.6s and 1.2s */
+}
+
+.show-outline .explorer-panel-glow {
+  opacity: 0.7; /* reduced from 1 */
+}
+
+/* Main panel styling */
+.file-explorer-panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(15, 23, 42, 0.9); /* slate-900/90 */
+  border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700/50 */
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3),
+              0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 1.5rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.panel-visible .file-explorer-panel {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Circuit board decorative elements */
+.circuit-element {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.4;
+  z-index: 1;
+}
+
+.circuit-trace-h {
+  height: 2px;
+  background-color: rgba(59, 130, 246, 0.6); /* blue-500/60 */
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); /* blue-500/50 */
+}
+
+.circuit-trace-v {
+  width: 2px;
+  background-color: rgba(59, 130, 246, 0.6); /* blue-500/60 */
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); /* blue-500/50 */
+}
+
+.circuit-connector {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 1px solid rgba(59, 130, 246, 0.7); /* blue-500/70 */
+  background-color: rgba(15, 23, 42, 0.8); /* slate-900/80 */
+  box-shadow: 0 0 4px rgba(59, 130, 246, 0.5); /* blue-500/50 */
+}
+
+.circuit-node {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.2); /* blue-500/20 */
+  border: 1px solid rgba(59, 130, 246, 0.4); /* blue-500/40 */
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3); /* blue-500/30 */
+}
+
+.circuit-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(59, 130, 246, 0.8); /* blue-500/80 */
+  box-shadow: 0 0 4px rgba(59, 130, 246, 0.5); /* blue-500/50 */
+}
+
+/* Explorer header styling */
+.explorer-panel-header {
+  position: relative;
+  z-index: 2;
+}
+
+.explorer-header-text {
+  position: relative;
+  padding-bottom: 2px;
+}
+
+.explorer-header-underline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 1px;
+  width: 0;
+  background-color: rgba(147, 197, 253, 0.5); /* blue-300/50 */
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.6); /* blue-500/60 */
+  transition: width 0.5s ease-out 0.8s;
+}
+
+.panel-visible .explorer-header-underline {
+  width: 100%;
+}
+
+/* Explorer content */
+.explorer-content {
+  position: relative;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.content-visible .explorer-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Explorer buttons and inputs styling */
+.explorer-btn-text {
+  position: relative;
+}
+
+.explorer-btn-text::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.2s ease;
+}
+
+.explorer-btn:hover .explorer-btn-text::after {
+  width: 100%;
+}
+
+/* Explorer navigation and search */
+.explorer-breadcrumbs {
+  background-color: rgba(30, 41, 59, 0.5); /* slate-800/50 */
+  border: 1px solid rgba(51, 65, 85, 0.3); /* slate-700/30 */
+  border-radius: 6px;
+  padding: 0.25rem 0.5rem;
+}
+
+.explorer-search-container {
+  position: relative;
+}
+
+/* Explorer files panel */
+.explorer-files-panel {
+  position: relative;
+  border: 1px solid rgba(51, 65, 85, 0.3); /* slate-700/30 */
+  border-radius: 6px;
+  background-color: rgba(15, 23, 42, 0.5); /* slate-900/50 */
+}
+
+.explorer-files-panel.navigating {
+  animation: navigate-transition 0.3s ease-out;
+}
+
+@keyframes navigate-transition {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.explorer-files-panel.refreshing {
+  animation: refresh-pulse 0.8s ease-out;
+}
+
+@keyframes refresh-pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Directory loading placeholders */
+.directory-loading-placeholder {
+  height: 80px;
+  background-color: rgba(51, 65, 85, 0.2); /* slate-700/20 */
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.directory-loading-placeholder::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+    rgba(51, 65, 85, 0) 0%,
+    rgba(51, 65, 85, 0.1) 50%,
+    rgba(51, 65, 85, 0) 100%
+  );
+  animation: loading-shimmer 1.5s infinite;
+}
+
+.directory-loading {
+  animation: fade-in 0.4s ease-out;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Grid View Item styles */
+.explorer-grid-item {
+  animation: item-fade-in 0.3s ease-out backwards;
+}
+
+.explorer-grid-item.opening {
+  animation: folder-opening 0.25s ease-out forwards;
+}
+
+.explorer-grid-item.file-selected {
+  animation: file-select-pulse 0.8s ease-out;
+}
+
+@keyframes item-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes folder-opening {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+    background-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+  100% {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+}
+
+@keyframes file-select-pulse {
+  0% {
+    transform: scale(1);
+    background-color: transparent;
+  }
+  50% {
+    transform: scale(1.05);
+    background-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+  }
+  100% {
+    transform: scale(1);
+    background-color: rgba(30, 64, 175, 0.3);
+  }
+}
+
+/* List view styles */
+.explorer-list-header {
+  color: rgba(148, 163, 184, 0.7); /* slate-400/70 */
+  font-size: 0.75rem; /* text-xs */
+  font-weight: 500; /* font-medium */
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3); /* slate-700/30 */
+}
+
+.explorer-list-item {
+  animation: item-fade-in 0.3s ease-out backwards;
+}
+
+.explorer-list-item.opening {
+  animation: folder-opening-list 0.25s ease-out forwards;
+}
+
+.explorer-list-item.file-selected {
+  animation: file-select-pulse 0.8s ease-out;
+}
+
+@keyframes folder-opening-list {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(10px);
+    opacity: 0.9;
+    background-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  }
+  100% {
+    transform: translateX(15px);
+    opacity: 0;
+  }
+}
+
+/* Empty state styles */
+.explorer-icon-pulse {
+  animation: icon-pulse 2s infinite ease-in-out;
+}
+
+@keyframes icon-pulse {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+.explorer-text-glow {
+  text-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+/* Loading overlay */
+.explorer-loading-overlay {
+  animation: fade-in 0.3s ease-out;
+}
+
+.explorer-loading-dialog {
+  animation: dialog-pop-in 0.4s ease-out;
+}
+
+@keyframes dialog-pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.explorer-circuit-loader {
+  width: 40px;
+  height: 40px;
+  margin: 20px auto;
+  border: 2px solid transparent;
+  border-top-color: rgba(59, 130, 246, 0.6);
+  border-right-color: rgba(59, 130, 246, 0.2);
+  border-bottom-color: rgba(59, 130, 246, 0.6);
+  border-left-color: rgba(59, 130, 246, 0.2);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+  position: relative;
+  animation: circuit-spin 1.2s linear infinite;
+}
+
+.explorer-circuit-loader::before,
+.explorer-circuit-loader::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+}
+
+.explorer-circuit-loader::before {
+  top: 5px;
+  left: 5px;
+  right: 5px;
+  bottom: 5px;
+  border: 2px solid transparent;
+  border-top-color: rgba(99, 102, 241, 0.6);
+  border-right-color: rgba(99, 102, 241, 0.2);
+  border-bottom-color: rgba(99, 102, 241, 0.6);
+  border-left-color: rgba(99, 102, 241, 0.2);
+  animation: circuit-spin 0.8s linear infinite reverse;
+}
+
+@keyframes circuit-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,783 @@
+/* 3D Transforms */
+.perspective {
+  perspective: 1000px;
+}
+
+.perspective-1200 {
+  perspective: 1200px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* App styling with True Black aesthetic */
+.app-icon {
+  background: linear-gradient(145deg, rgba(3, 7, 18, 0.8), rgba(15, 23, 42, 0.6));
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6), inset 0 0 10px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.app-icon-focused {
+  background: linear-gradient(145deg, rgba(29, 78, 216, 0.15), rgba(2, 6, 23, 0.85));
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 
+    0 0 20px rgba(37, 99, 235, 0.2), 
+    inset 0 0 15px rgba(37, 99, 235, 0.1),
+    0 5px 15px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.app-item {
+  transition: filter 0.3s ease;
+}
+
+/* Premium panel styling */
+.panel-premium {
+  background: linear-gradient(to bottom, rgba(10, 15, 30, 0.9), rgba(2, 6, 23, 0.95));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(59, 130, 246, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.panel-icon-premium {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(2, 6, 23, 0.9));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: inset 0 1px 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Premium button */
+.premium-button {
+  background: linear-gradient(to bottom, rgba(37, 99, 235, 0.8), rgba(29, 78, 216, 0.9));
+  border: 1px solid rgba(96, 165, 250, 0.3);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.2),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.premium-button:hover {
+  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.85), rgba(37, 99, 235, 0.95));
+  box-shadow: 
+    0 0 15px rgba(37, 99, 235, 0.3),
+    0 4px 6px -1px rgba(0, 0, 0, 0.2),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* 3D container with depth */
+.app-container {
+  transform: translateZ(0);
+  transition: transform 0.3s ease;
+}
+
+.app-container-focused {
+  transform: translateZ(20px); /* Pop focused app forward in 3D space */
+}
+
+/* Reflection effects */
+.icon-reflection {
+  background: linear-gradient(to bottom, 
+              rgba(255, 255, 255, 0.08) 0%, 
+              rgba(255, 255, 255, 0.02) 50%, 
+              transparent 100%);
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.platform-reflection {
+  background: radial-gradient(ellipse at center,
+              rgba(59, 130, 246, 0.05) 0%,
+              rgba(29, 78, 216, 0.02) 50%,
+              transparent 100%);
+  mix-blend-mode: screen;
+  opacity: 0.5;
+}
+
+/* Connection line from center to app */
+.connection-line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.6) 0%, transparent 100%);
+  transform: translate(-50%, -100%) rotate(180deg);
+  transform-origin: bottom;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* 3D grid floor effect */
+.grid-floor {
+  /* Grid removed - now handled by gridService */
+  background-position: center;
+  perspective: 1000px;
+  transform-origin: center;
+  transform: rotateX(60deg);
+  opacity: 0.1;
+}
+
+/* Star field */
+.stars-field {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.star {
+  position: absolute;
+  background-color: rgba(226, 232, 240, 0.8);
+  border-radius: 50%;
+  animation: twinkle ease infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* Scan lines */
+.scan-lines {
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(59, 130, 246, 0.02) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+}
+
+/* Center glow effects */
+.center-glow {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+  box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.2);
+}
+
+/* Shadow and glow effects */
+.shadow-glow-sm {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.6);
+}
+
+.shadow-glow {
+  box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+}
+
+.drop-shadow-glow {
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.5));
+}
+
+.drop-shadow-blue {
+  filter: drop-shadow(0 0 5px rgba(59, 130, 246, 0.4));
+}
+
+/* Custom animations */
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+.pulse-animation {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.02); }
+}
+
+.animate-pulse-slow {
+  animation: pulse-slow 3s infinite;
+}
+
+/* Radial gradients */
+.bg-gradient-radial {
+  background: radial-gradient(var(--tw-gradient-stops));
+}
+
+/* Selection styling */
+::selection {
+  background-color: rgba(37, 99, 235, 0.2);
+  color: rgba(219, 234, 254, 1);
+}
+
+/* Particles animation */
+.particles-container {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  animation: float-diagonal ease-in-out infinite alternate;
+}
+
+@keyframes float-diagonal {
+  0% {
+    transform: translateX(-20px) translateY(-20px) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.07;
+  }
+  100% {
+    transform: translateX(20px) translateY(20px) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Microphone button styles */
+.mic-button {
+  background: linear-gradient(145deg, rgba(7, 14, 30, 0.8), rgba(17, 24, 39, 0.6));
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: 
+    0 0 10px rgba(37, 99, 235, 0.1), 
+    inset 0 0 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease;
+}
+
+.mic-button:hover {
+  background: linear-gradient(145deg, rgba(17, 24, 39, 0.8), rgba(30, 41, 59, 0.6));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 
+    0 0 12px rgba(37, 99, 235, 0.2), 
+    inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.mic-button-active {
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.15), rgba(30, 41, 59, 0.85));
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 
+    0 0 15px rgba(37, 99, 235, 0.4), 
+    inset 0 0 8px rgba(37, 99, 235, 0.2);
+  transition: all 0.3s ease;
+}
+
+/* Microphone pulsing effect when active */
+.mic-pulse-effect {
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+  animation: mic-pulse 1.5s ease-out infinite;
+}
+
+@keyframes mic-pulse {
+  0% { opacity: 0.8; transform: scale(0.8); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+/* Connecting state for mic button */
+.mic-connecting-inner {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.95));
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.1);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Loading state animation */
+@keyframes connecting-pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Updated mic styling */
+.mic-active-inner {
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.2), rgba(2, 6, 23, 0.9));
+  border: 2px solid rgba(59, 130, 246, 0.6);
+  box-shadow: inset 0 0 15px rgba(59, 130, 246, 0.4);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+.mic-inactive-inner {
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.95));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+.mic-muted-inner {
+  background: linear-gradient(145deg, rgba(42, 15, 15, 0.9), rgba(23, 2, 2, 0.95));
+  border: 2px solid rgba(239, 68, 68, 0.6);
+  box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.3);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Microphone ripple effect */
+.mic-ripple-effect {
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0.8);
+  animation: mic-ripple 3s ease-out infinite;
+}
+
+@keyframes mic-ripple {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(2.0); opacity: 0; }
+}
+
+/* Additional microphone button effects */
+.mic-inner-reflection {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.2) 0%, transparent 60%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Ensure consistent animation for active mic button */
+@keyframes mic-active-pulse {
+  0%, 100% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.03); }
+}
+
+/* Microphone button state-based styling */
+.mic-active {
+  box-shadow: 0 0 35px rgba(37, 99, 235, 0.8), inset 0 0 25px rgba(59, 130, 246, 0.5), 0 10px 30px rgba(0, 0, 0, 0.8);
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy effect */
+  border-color: rgba(59, 130, 246, 0.8);
+  animation: mic-activate 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Specific animation for transitioning to active state */
+@keyframes mic-activate {
+  0% { 
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.6), 0 8px 25px rgba(0, 0, 0, 0.6);
+    border-color: rgba(59, 130, 246, 0.4);
+  }
+  50% { 
+    box-shadow: 0 0 40px rgba(37, 99, 235, 0.9), inset 0 0 30px rgba(59, 130, 246, 0.6), 0 10px 30px rgba(0, 0, 0, 0.8);
+    border-color: rgba(59, 130, 246, 0.9);
+  }
+  100% { 
+    box-shadow: 0 0 35px rgba(37, 99, 235, 0.8), inset 0 0 25px rgba(59, 130, 246, 0.5), 0 10px 30px rgba(0, 0, 0, 0.8);
+    border-color: rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Connecting state */
+.mic-connecting {
+  box-shadow: 0 0 20px rgba(37, 99, 235, 0.3), inset 0 0 15px rgba(0, 0, 0, 0.6), 0 8px 25px rgba(0, 0, 0, 0.6);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+/* Inactive state */
+.mic-inactive {
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.6), 0 8px 25px rgba(0, 0, 0, 0.6);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-color: rgba(59, 130, 246, 0.5);
+}
+
+/* Muted state */
+.mic-muted {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.6), 0 8px 25px rgba(0, 0, 0, 0.6);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+  border-color: rgba(239, 68, 68, 0.7);
+  background: radial-gradient(circle at 50% 50%, rgba(239, 68, 68, 0.1) 0%, rgba(239, 68, 68, 0.05) 50%, transparent 100%);
+}
+
+/* Red pulse animation for muted state */
+@keyframes red-pulse {
+  0%, 100% {
+    box-shadow: 
+      0 0 20px rgba(239, 68, 68, 0.3),
+      0 0 40px rgba(239, 68, 68, 0.2),
+      0 0 60px rgba(239, 68, 68, 0.1),
+      inset 0 0 20px rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+  }
+  50% {
+    box-shadow: 
+      0 0 25px rgba(239, 68, 68, 0.4),
+      0 0 50px rgba(239, 68, 68, 0.3),
+      0 0 80px rgba(239, 68, 68, 0.2),
+      inset 0 0 25px rgba(239, 68, 68, 0.2);
+    border-color: #f87171;
+  }
+}
+
+/* Override any remaining blue elements for muted state */
+.mic-muted,
+.mic-muted::before,
+.mic-muted::after {
+  border-color: rgba(239, 68, 68, 0.7) !important;
+  box-shadow: 
+    0 0 25px rgba(239, 68, 68, 0.6),
+    inset 0 0 20px rgba(0, 0, 0, 0.6),
+    0 8px 25px rgba(0, 0, 0, 0.6) !important;
+  animation: red-pulse 2s ease-in-out infinite !important;
+}
+
+/* Enhanced inner styling for active state with glow effects */
+.mic-active-inner {
+  background: linear-gradient(145deg, rgba(37, 99, 235, 0.2), rgba(2, 6, 23, 0.9));
+  border: 2px solid rgba(59, 130, 246, 0.6);
+  box-shadow: inset 0 0 25px rgba(59, 130, 246, 0.5);
+  transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  animation: inner-glow-activate 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Animation for inner glow activation */
+@keyframes inner-glow-activate {
+  0% { 
+    box-shadow: inset 0 0 10px rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.4);
+  }
+  50% { 
+    box-shadow: inset 0 0 35px rgba(59, 130, 246, 0.7);
+    border: 2px solid rgba(59, 130, 246, 0.8);
+  }
+  100% { 
+    box-shadow: inset 0 0 25px rgba(59, 130, 246, 0.5);
+    border: 2px solid rgba(59, 130, 246, 0.6);
+  }
+}
+
+/* New animation for rings that appear when active */
+@keyframes ring-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Enhanced Full screen outline animation with texture and stronger glow */
+.screen-outline {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none;
+  overflow: hidden;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: opacity, visibility;
+}
+
+.screen-outline.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease, visibility 0s 0.8s;
+}
+
+.screen-outline.visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.8s ease, visibility 0s;
+}
+
+/* Shared styles for outline segments with EXTREME glow */
+.outline-segment {
+  position: absolute;
+  box-shadow: 0 0 50px rgba(59, 130, 246, 0.9), 0 0 100px rgba(59, 130, 246, 0.6); /* Doubled shadow values */
+  opacity: 0.98; /* Higher opacity for more visibility */
+  will-change: transform, width, height, opacity, box-shadow;
+  transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              box-shadow 1.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+  -webkit-filter: blur(0.75px); /* Slightly increased blur for larger size */
+  filter: blur(0.75px);
+}
+
+/* Horizontal segments with improved styling */
+.outline-top, .outline-bottom {
+  height: 8px; /* Increased from 4px to 8px */
+  left: auto;
+  right: 0;
+  transform: none;
+  width: 0;
+  transform-origin: right center;
+  background-image: 
+    linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.95), transparent),
+    repeating-linear-gradient(90deg, rgba(255,255,255, 0) 0px, rgba(255,255,255, 0.1) 2px, rgba(255,255,255, 0) 4px, rgba(255,255,255, 0) 16px); /* Doubled pattern size */
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 1.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Vertical segments with improved styling */
+.outline-left, .outline-right {
+  width: 8px; /* Increased from 4px to 8px */
+  top: auto;
+  bottom: 0;
+  height: 0;
+  transform-origin: center bottom;
+  background-image: 
+    linear-gradient(0deg, transparent, rgba(59, 130, 246, 0.95), transparent),
+    repeating-linear-gradient(0deg, rgba(255,255,255, 0) 0px, rgba(255,255,255, 0.1) 2px, rgba(255,255,255, 0) 4px, rgba(255,255,255, 0) 16px); /* Doubled pattern size */
+  transition: height 0.55s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 1.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Position each segment */
+.outline-top {
+  top: 0;
+}
+
+.outline-bottom {
+  bottom: 0;
+}
+
+.outline-left {
+  left: 0;
+}
+
+.outline-right {
+  right: 0;
+}
+
+/* Smoothed animation strategy with progressive glow */
+.outline-active .outline-top {
+  width: 100%;
+  transition-delay: 0s;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 1), 0 0 60px rgba(59, 130, 246, 0.7);
+}
+
+.outline-active .outline-right {
+  height: 100%;
+  transition-delay: 0.4s;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 1), 0 0 60px rgba(59, 130, 246, 0.7);
+}
+
+.outline-active .outline-left {
+  height: 100%;
+  transition-delay: 0.4s;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 1), 0 0 60px rgba(59, 130, 246, 0.7);
+}
+
+.outline-active .outline-bottom {
+  width: 100%;
+  transition-delay: 0.8s;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 1), 0 0 60px rgba(59, 130, 246, 0.7);
+}
+
+/* Intermediate state with enhanced glow */
+.outline-complete-init {
+  transition: box-shadow 2s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.95), 0 0 55px rgba(59, 130, 246, 0.65) !important;
+}
+
+/* Smooth pulsing glow animation */
+@keyframes pulse-glow {
+  0%, 100% { 
+    opacity: 0.95; 
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.9), 0 0 45px rgba(59, 130, 246, 0.6);
+  }
+  50% { 
+    opacity: 1; 
+    box-shadow: 0 0 40px rgba(59, 130, 246, 1), 0 0 70px rgba(59, 130, 246, 0.8);
+  }
+}
+
+/* Completed outline state with subtle pulsing - FIX TEXTURE LOSS */
+.outline-complete .outline-segment {
+  animation: pulse-glow 4s infinite cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* Preserve the background textures in all states */
+.outline-complete .outline-top,
+.outline-complete .outline-bottom,
+.outline-deactivating .outline-top,
+.outline-deactivating .outline-bottom {
+  width: 100% !important;
+  height: 4px !important;
+  background-image: 
+    linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.95), transparent),
+    repeating-linear-gradient(90deg, rgba(255,255,255, 0) 0px, rgba(255,255,255, 0.1) 1px, rgba(255,255,255, 0) 2px, rgba(255,255,255, 0) 8px) !important;
+}
+
+.outline-complete .outline-left,
+.outline-complete .outline-right,
+.outline-deactivating .outline-left,
+.outline-deactivating .outline-right {
+  height: 100% !important;
+  width: 4px !important;
+  background-image: 
+    linear-gradient(0deg, transparent, rgba(59, 130, 246, 0.95), transparent),
+    repeating-linear-gradient(0deg, rgba(255,255,255, 0) 0px, rgba(255,255,255, 0.1) 1px, rgba(255,255,255, 0) 2px, rgba(255,255,255, 0) 8px) !important;
+}
+
+/* Add deactivating state with increased glow */
+.outline-deactivating .outline-segment {
+  box-shadow: 0 0 40px rgba(59, 130, 246, 1), 0 0 70px rgba(59, 130, 246, 0.8) !important;
+  animation: none !important;
+  transition: box-shadow 1s cubic-bezier(0.4, 0.0, 0.2, 1), 
+              background-image 0.5s ease-in-out !important;
+}
+
+/* Maintain dimensions in complete and deactivating states */
+.outline-complete .outline-top,
+.outline-complete .outline-bottom,
+.outline-deactivating .outline-top,
+.outline-deactivating .outline-bottom {
+  width: 100% !important;
+  height: 4px !important;
+}
+
+.outline-complete .outline-left,
+.outline-complete .outline-right,
+.outline-deactivating .outline-left,
+.outline-deactivating .outline-right {
+  height: 100% !important;
+  width: 4px !important;
+}
+
+/* Retraction animation with proper sequencing */
+@keyframes retract-bottom {
+  0% { width: 100%; }
+  100% { width: 0; }
+}
+
+@keyframes retract-sides {
+  0% { height: 100%; }
+  100% { height: 0; }
+}
+
+@keyframes retract-top {
+  0% { width: 100%; }
+  100% { width: 0; }
+}
+
+@keyframes retract-origin {
+  0% { height: 140px; }
+  100% { height: 0; }
+}
+
+/* Remove the conflicting rules and keep only the animation-based approach */
+.retract-animation .outline-bottom {
+  animation: retract-bottom 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards !important;
+  width: 100% !important; /* Start at full width */
+  transition: none !important; /* Override any transitions */
+}
+
+.retract-animation .outline-left,
+.retract-animation .outline-right {
+  animation: retract-sides 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) 0.4s forwards !important;
+  height: 100% !important; /* Start at full height */
+  transition: none !important; /* Override any transitions */
+}
+
+.retract-animation .outline-top {
+  animation: retract-top 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) 0.8s forwards !important;
+  width: 100% !important; /* Start at full width */
+  transition: none !important; /* Override any transitions */
+}
+
+.retract-animation .outline-origin {
+  animation: retract-origin 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) 0.8s forwards !important;
+  height: 140px !important; /* Start at full height */
+  transition: none !important; /* Override any transitions */
+}
+
+/* Origin connector line with brighter glow */
+.outline-origin {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 8px; /* Increased from 4px to 8px */
+  height: 0;
+  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.95), rgba(59, 130, 246, 0.4));
+  box-shadow: 0 0 40px rgba(59, 130, 246, 0.9), 0 0 80px rgba(59, 130, 246, 0.6); /* Doubled shadow values */
+  transform: translateX(-50%);
+  z-index: 1000;
+  transition: height 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+              box-shadow 1.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.outline-active .outline-origin {
+  height: 280px; /* Increased from 140px to 280px */
+  transition-delay: 0.2s;
+  box-shadow: 0 0 35px rgba(59, 130, 246, 1), 0 0 60px rgba(59, 130, 246, 0.7);
+}
+
+.outline-complete .outline-origin {
+  height: 280px !important; /* Increased from 140px to 280px */
+  animation: pulse-glow 4s infinite cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.outline-complete-init .outline-origin {
+  height: 280px !important; /* Increased from 140px to 280px */
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.95), 0 0 55px rgba(59, 130, 246, 0.65) !important;
+  transition: box-shadow 2s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+.outline-deactivating .outline-origin {
+  height: 280px !important; /* Increased from 140px to 280px */
+  box-shadow: 0 0 40px rgba(59, 130, 246, 1), 0 0 70px rgba(59, 130, 246, 0.8) !important;
+  animation: none !important;
+}
+
+/* Enhanced magic particle effects along the outline - larger and more visible */
+.outline-particle {
+  position: absolute;
+  width: 12px; /* Increased from 6px to 12px */
+  height: 12px; /* Increased from 6px to 12px */
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    0 0 30px rgba(59, 130, 246, 1), /* Doubled shadow values */
+    0 0 60px rgba(59, 130, 246, 0.7); /* Doubled shadow values */
+  pointer-events: none;
+}
+
+/* Enhanced premium microphone button styling - larger size */
+.pristine-mic-button {
+  position: relative;
+  background: linear-gradient(145deg, rgba(13, 27, 64, 0.95), rgba(2, 6, 23, 0.98));
+  border: 2px solid rgba(59, 130, 246, 0.5);
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transform-style: preserve-3d;
+  box-shadow: 0 0 25px rgba(37, 99, 235, 0.4), inset 0 0 20px rgba(0, 0, 0, 0.6), 0 8px 25px rgba(0, 0, 0, 0.6);
+}
+
+.pristine-mic-button::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.pristine-mic-button:hover {
+  transform: translateY(-3px);
+  border-color: rgba(59, 130, 246, 0.7);
+  box-shadow: 
+    0 0 30px rgba(37, 99, 235, 0.6),
+    inset 0 0 20px rgba(59, 130, 246, 0.3), 
+    0 12px 25px rgba(0, 0, 0, 0.7);
+}
+
+/* Enhanced animated state transitions */
+.mic-inactive-inner,
+.mic-connecting-inner,
+.mic-active-inner {
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Animated connection status text fade */
+@keyframes status-fade-in {
+  0% { opacity: 0; transform: translateY(5px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+.status-text {
+  animation: status-fade-in 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+}

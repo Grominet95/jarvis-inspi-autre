@@ -1,0 +1,8 @@
+# Python dependencies for ML server
+Flask==3.0.0
+huggingface-hub>=0.15.0
+Pillow>=9.5.0
+requests>=2.28.0
+
+# Main 3D generation package
+hy3dgen

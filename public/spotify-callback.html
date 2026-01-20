@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Authentication</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container {
+            max-width: 400px;
+            padding: 2rem;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #333;
+            border-top: 4px solid #1DB954;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="spinner"></div>
+        <h2>Connecting to Spotify...</h2>
+        <p>Please wait while we complete the authentication process.</p>
+    </div>
+
+    <script>
+        // Extract authorization code from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+
+        if (error) {
+            // Send error to parent window
+            window.opener?.postMessage({
+                type: 'SPOTIFY_AUTH_ERROR',
+                error: error
+            }, window.location.origin);
+            window.close();
+        } else if (code) {
+            // Send success to parent window
+            window.opener?.postMessage({
+                type: 'SPOTIFY_AUTH_SUCCESS',
+                code: code
+            }, window.location.origin);
+            window.close();
+        } else {
+            // No code or error - something went wrong
+            window.opener?.postMessage({
+                type: 'SPOTIFY_AUTH_ERROR',
+                error: 'No authorization code received'
+            }, window.location.origin);
+            window.close();
+        }
+    </script>
+</body>
+</html>

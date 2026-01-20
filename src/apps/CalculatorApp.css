@@ -1,0 +1,200 @@
+.calculator-app {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.calculator-container {
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+  max-height: 600px;
+  min-width: 280px;
+  min-height: 400px;
+  background: rgba(0, 0, 0, 0.95);
+  border-radius: 25px;
+  padding: min(20px, 4%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.calculator-display {
+  height: clamp(80px, 20%, 140px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: min(20px, 4%);
+  margin-bottom: min(20px, 3%);
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.display-text {
+  font-size: clamp(24px, 8vw, 48px);
+  font-weight: 300;
+  color: white;
+  text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -2px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.calculator-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: clamp(8px, 2%, 16px);
+  flex: 1;
+}
+
+.calc-button {
+  border: none;
+  border-radius: 50%;
+  font-size: clamp(18px, 4vw, 32px);
+  font-weight: 400;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  min-height: 40px;
+}
+
+.calc-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.calc-button:hover::before {
+  opacity: 1;
+}
+
+.calc-button:active {
+  transform: scale(0.95);
+  box-shadow: 
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Number buttons - dark gray */
+.number-button {
+  background: linear-gradient(135deg, #505050 0%, #404040 100%);
+  color: white;
+}
+
+.number-button:hover {
+  background: linear-gradient(135deg, #606060 0%, #505050 100%);
+}
+
+/* Function buttons - light gray */
+.function-button {
+  background: linear-gradient(135deg, #a6a6a6 0%, #8a8a8a 100%);
+  color: black;
+  font-weight: 500;
+}
+
+.function-button:hover {
+  background: linear-gradient(135deg, #b6b6b6 0%, #9a9a9a 100%);
+}
+
+/* Operator buttons - orange */
+.operator-button {
+  background: linear-gradient(135deg, #ff9500 0%, #e6850e 100%);
+  color: white;
+  font-weight: 500;
+}
+
+.operator-button:hover {
+  background: linear-gradient(135deg, #ffad33 0%, #ff9500 100%);
+}
+
+/* Zero button spans 2 columns */
+.zero-button {
+  border-radius: clamp(20px, 8vw, 35px);
+  grid-column: span 2;
+  justify-content: flex-start;
+  padding-left: clamp(15px, 4vw, 30px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+  .calculator-container {
+    width: 280px;
+    height: 450px;
+    padding: 15px;
+  }
+  
+  .display-text {
+    font-size: 36px;
+  }
+  
+  .calc-button {
+    font-size: 24px;
+  }
+  
+  .calculator-buttons {
+    gap: 8px;
+  }
+}
+
+/* Touch screen improvements */
+@media (hover: none) and (pointer: coarse) {
+  .calc-button {
+    font-size: 28px;
+  }
+  
+  .calc-button:active {
+    transform: scale(0.9);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+/* Accessibility */
+.calc-button:focus {
+  outline: 2px solid #0078d4;
+  outline-offset: 2px;
+}
+
+.calc-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .calculator-container {
+    background: rgba(0, 0, 0, 0.98);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+  
+  .calculator-display {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}

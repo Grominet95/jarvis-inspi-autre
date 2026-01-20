@@ -1,0 +1,63 @@
+.voice-active .mic-ripple-effect {
+  transition: transform 0.1s ease-out, opacity 0.2s ease-out;
+}
+
+/* Enhanced ripple effect that responds to volume */
+.voice-volume-ripple {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.4);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+.voice-ring {
+  border-radius: 50%;
+  border: 2px solid rgba(59, 130, 246, 0.3);
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, transparent 70%);
+  will-change: transform, opacity;
+}
+
+/* Reactive outer ring styles */
+.outer-voice-ring {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform, opacity;
+  transition: transform 100ms ease-out, opacity 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+/* Voice-reactive outer rings style */
+.voice-reactive-ring {
+  transition: transform 150ms ease-out !important;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Pulse animation base - will be modified by JS */
+@keyframes volume-pulse {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(var(--scale, 1.5));
+    opacity: var(--opacity, 0.6);
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+@keyframes initial-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

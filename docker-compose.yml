@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  holomat:
+    build: .
+    ports:
+      - "3000:3001"  # Frontend/API
+      - "8000:8000"  # ML Server
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./bambu-config.json:/app/bambu-config.json:ro
+      - ./hf-config.json:/app/hf-config.json:ro
+      - holomat_logs:/app/logs
+      - holomat_uploads:/app/data/uploads
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 90s
+
+volumes:
+  holomat_logs:
+  holomat_uploads:

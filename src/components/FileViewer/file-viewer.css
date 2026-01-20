@@ -1,0 +1,410 @@
+/* File viewer with circuit board styling + animations */
+
+.file-viewer-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+}
+
+.file-viewer-container {
+  position: absolute;
+  background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(3, 7, 18, 0.98));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(59, 130, 246, 0.2);
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
+  /* Jagged tech-inspired clipPath similar to settings panel */
+  clip-path: polygon(
+    0% 15px,
+    15px 0%,
+    calc(50% - 25px) 0%,
+    50% 15px,
+    calc(50% + 25px) 0%,
+    calc(100% - 40px) 0%,
+    calc(100% - 40px) 15px,
+    calc(100% - 15px) 15px,
+    100% 30px,
+    100% calc(100% - 30px),
+    calc(100% - 15px) 100%,
+    70% 100%,
+    calc(70% - 20px) calc(100% - 10px),
+    30% calc(100% - 10px),
+    calc(30% - 20px) 100%,
+    15px 100%,
+    0% calc(100% - 15px)
+  );
+}
+
+.file-viewer-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, transparent 49.5%, rgba(59, 130, 246, 0.15) 49.5%, rgba(59, 130, 246, 0.15) 50.5%, transparent 50.5%),
+    linear-gradient(to bottom, transparent 49.5%, rgba(59, 130, 246, 0.15) 49.5%, rgba(59, 130, 246, 0.15) 50.5%, transparent 50.5%);
+  background-size: 30px 30px;
+  opacity: 0.3;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.file-viewer-container.dragging {
+  cursor: grabbing;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), 0 0 25px rgba(59, 130, 246, 0.3);
+}
+
+/* Circuit elements */
+.circuit-trace-h, .circuit-trace-v, .circuit-connector, .circuit-node, .circuit-dot {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.content-visible .circuit-trace-h,
+.content-visible .circuit-trace-v,
+.content-visible .circuit-connector, 
+.content-visible .circuit-node, 
+.content-visible .circuit-dot {
+  opacity: 1;
+}
+
+.circuit-trace-h {
+  height: 1px;
+  width: 60px;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.6), transparent);
+}
+
+.circuit-trace-v {
+  width: 1px;
+  height: 100px;
+  background: linear-gradient(0deg, rgba(59, 130, 246, 0.6), transparent);
+}
+
+.circuit-connector {
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.6);
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.8);
+}
+
+.circuit-node {
+  width: 6px;
+  height: 6px;
+  background: rgba(59, 130, 246, 0.7);
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+.circuit-dot {
+  width: 3px;
+  height: 3px;
+  background: rgba(59, 130, 246, 0.8);
+  border-radius: 50%;
+}
+
+/* Circuit element positions */
+.top-left {
+  top: 70px;
+  left: 20px;
+}
+
+.top-right {
+  top: 70px;
+  right: 20px;
+}
+
+.top-left-offset {
+  top: 50px;
+  left: 80px;
+}
+
+.top-right-offset {
+  top: 100px;
+  right: 80px;
+}
+
+.left-mid {
+  top: 170px;
+  left: 20px;
+}
+
+.right-mid {
+  top: 280px;
+  right: 40px;
+}
+
+/* Card decorative notches */
+.card-notch {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: rgba(15, 23, 42, 0.95);
+  z-index: 10;
+}
+
+.card-notch.top-right {
+  top: 0;
+  right: 0;
+  border-left: 1px solid rgba(59, 130, 246, 0.4);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+.card-notch.bottom-left {
+  bottom: 0;
+  left: 0;
+  border-right: 1px solid rgba(59, 130, 246, 0.4);
+  border-top: 1px solid rgba(59, 130, 246, 0.4);
+}
+
+/* Inner glow effect */
+.viewer-panel-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.4) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.content-visible .viewer-panel-glow {
+  opacity: 0.2;
+}
+
+/* Viewer header */
+.viewer-header {
+  background: rgba(30, 41, 59, 0.7);
+  padding: 0.75rem 1.5rem;
+  cursor: grab;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-underline {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  right: 30px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(59, 130, 246, 0.6), transparent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.content-visible .header-underline {
+  opacity: 1;
+}
+
+.header-connector {
+  position: absolute;
+  bottom: -15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30px;
+  height: 15px;
+  border-left: 1px solid rgba(59, 130, 246, 0.4);
+  border-right: 1px solid rgba(59, 130, 246, 0.4);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.4);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.content-visible .header-connector {
+  opacity: 1;
+}
+
+.viewer-title {
+  color: rgb(147, 197, 253);
+  font-size: 1.25rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  position: relative;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.content-visible .viewer-title {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.viewer-close-btn {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: rgb(147, 197, 253);
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.content-visible .viewer-close-btn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.viewer-close-btn:hover {
+  background: rgba(239, 68, 68, 0.7);
+  border-color: rgba(239, 68, 68, 0.5);
+  color: white;
+}
+
+/* Content container */
+.viewer-content {
+  padding: 1.5rem 2rem;
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
+  position: relative;
+  margin: 15px 15px 15px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.6);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease 0.05s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) 0.05s;
+}
+
+.content-visible .viewer-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Loading indicator */
+.viewer-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+}
+
+.spinner {
+  height: 32px;
+  width: 32px;
+  border: 4px solid rgba(59, 130, 246, 0.3);
+  border-top-color: rgba(59, 130, 246, 0.8);
+  border-radius: 50%;
+  animation: spin 1s ease-in-out infinite;
+  margin-right: 12px;
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Error display */
+.viewer-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: rgb(248, 113, 113);
+  height: 250px;
+}
+
+.error-icon {
+  height: 64px;
+  width: 64px;
+  margin-bottom: 16px;
+  color: rgba(239, 68, 68, 0.5);
+}
+
+/* Image content */
+.viewer-image-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.viewer-image {
+  padding: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.5);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3), 0 0 10px rgba(59, 130, 246, 0.2);
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+/* Text content */
+.viewer-text-content {
+  padding: 12px;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.5);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2), 0 0 5px rgba(59, 130, 246, 0.1);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 0.875rem;
+  color: rgb(186, 230, 253);
+}
+
+/* Resize handle */
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 20px;
+  height: 20px;
+  cursor: nwse-resize;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+  color: rgb(147, 197, 253);
+  filter: drop-shadow(0 0 2px rgba(59, 130, 246, 0.5));
+}
+
+.content-visible .resize-handle {
+  opacity: 1;
+}
+
+.resize-handle:hover {
+  color: rgb(186, 230, 253);
+}
+
+/* Animation for initial appearance */
+@keyframes contentFade {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.file-viewer-container {
+  animation: contentFade 0.3s forwards;
+}

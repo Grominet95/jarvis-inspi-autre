@@ -1,0 +1,221 @@
+.document-viewer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+}
+
+.document-viewer-window {
+  position: absolute;
+  background: rgba(13, 17, 23, 0.95);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  pointer-events: all;
+  display: flex;
+  flex-direction: column;
+  min-width: 400px;
+  min-height: 300px;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+.document-viewer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(59, 130, 246, 0.1);
+  border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 12px 12px 0 0;
+  cursor: move;
+  user-select: none;
+}
+
+.document-viewer-title {
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.document-viewer-close {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.document-viewer-close:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.document-viewer-content {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* Markdown styling */
+.document-viewer-content h1,
+.document-viewer-content h2,
+.document-viewer-content h3,
+.document-viewer-content h4,
+.document-viewer-content h5,
+.document-viewer-content h6 {
+  color: #3b82f6;
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.document-viewer-content h1 { font-size: 2em; }
+.document-viewer-content h2 { font-size: 1.5em; }
+.document-viewer-content h3 { font-size: 1.25em; }
+
+.document-viewer-content p {
+  margin-bottom: 16px;
+}
+
+.document-viewer-content ul,
+.document-viewer-content ol {
+  margin-bottom: 16px;
+  padding-left: 24px;
+}
+
+.document-viewer-content li {
+  margin-bottom: 8px;
+}
+
+.document-link {
+  color: #60a5fa;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(96, 165, 250, 0.3);
+  transition: all 0.2s ease;
+}
+
+.document-link:hover {
+  color: #93c5fd;
+  border-bottom-color: #93c5fd;
+}
+
+.document-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.document-inline-code {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 0.9em;
+}
+
+.document-code-block {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+.document-code-block code {
+  color: #e5e7eb;
+  font-family: 'Monaco', 'Consolas', monospace;
+  font-size: 0.9em;
+}
+
+.document-sources {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.document-sources h3 {
+  color: #3b82f6;
+  margin-bottom: 16px;
+}
+
+.source-link {
+  color: #60a5fa;
+  text-decoration: none;
+  font-size: 0.9em;
+}
+
+.source-link:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+.document-viewer-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nw-resize;
+  background: linear-gradient(-45deg, transparent 0%, transparent 40%, rgba(59, 130, 246, 0.3) 50%, transparent 60%, transparent 100%);
+}
+
+/* Scrollbar styling */
+.document-viewer-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.document-viewer-content::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.document-viewer-content::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.3);
+  border-radius: 4px;
+}
+
+.document-viewer-content::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.5);
+}
+
+/* Table styling */
+.document-viewer-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.document-viewer-content th,
+.document-viewer-content td {
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.document-viewer-content th {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.document-viewer-content blockquote {
+  border-left: 4px solid #3b82f6;
+  margin: 16px 0;
+  padding-left: 16px;
+  color: #d1d5db;
+  font-style: italic;
+}
+
